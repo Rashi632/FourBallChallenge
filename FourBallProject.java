@@ -1,15 +1,43 @@
-import processing.core.PApplet;
+
+
+        import processing.core.PApplet;
+
+        import java.util.*;
 
 public class FourBallsChallenge extends PApplet {
-    int WIDTH = 800;
-    int HEIGHT = 600;
-    int DIAMETER = 10;
-    int[] ballsWidth = {0, 0, 0, 0};
-    int[] ballsHeightPosition = {1, 2, 3, 4};
-    int[] ballsIncrementSpeed = {1, 2, 3, 4};
+    private final int WIDTH = 800;
+    private final int HEIGHT = 600;
+    private final int DIAMETER = 10;
+
+    private int ballsWidth;
+    private int ballsHeightPosition;
+    private int ballsIncrementSpeed;
+
+    private static List<FourBallsChallenge> balls = new ArrayList<>();
+
+    public FourBallsChallenge() {
+    }
+
+    public FourBallsChallenge(int ballsWidth, int ballsHeightPosition, int ballsIncrementSpeed) {
+        this.ballsWidth = ballsWidth;
+        this.ballsHeightPosition = ballsHeightPosition;
+        this.ballsIncrementSpeed = ballsIncrementSpeed;
+    }
 
     public static void main(String[] args) {
         PApplet.main("FourBallsChallenge", args);
+
+        FourBallsChallenge firstBall = new FourBallsChallenge(0, 1, 1);
+        balls.add(firstBall);
+
+        FourBallsChallenge secondBall = new FourBallsChallenge(0, 2, 2);
+        balls.add(secondBall);
+
+        FourBallsChallenge thirdBall = new FourBallsChallenge(0, 3, 3);
+        balls.add(thirdBall);
+
+        FourBallsChallenge fourthBall = new FourBallsChallenge(0, 4, 4);
+        balls.add(fourthBall);
     }
 
     @Override
@@ -20,15 +48,15 @@ public class FourBallsChallenge extends PApplet {
 
     @Override
     public void draw() {
-        for (int ball = 0; ball < 4; ball++) {
-            ballsWidth[ball] = drawCircle(ballsWidth[ball], ballsHeightPosition[ball], ballsIncrementSpeed[ball]);
+        for (FourBallsChallenge ball : balls) {
+            ball.ballsWidth = drawCircle(ball);
         }
     }
 
-    int drawCircle(int width, int heightPosition, int incrementSpeeed) {
-        int height = heightPosition * HEIGHT / 5;
-        ellipse(width, height, DIAMETER, DIAMETER);
-        width += incrementSpeeed;
-        return width;
+    private int drawCircle(FourBallsChallenge ball) {
+        int height = ball.ballsHeightPosition * HEIGHT / 5;
+        ellipse(ball.ballsWidth, height, DIAMETER, DIAMETER);
+        ball.ballsWidth += ball.ballsIncrementSpeed;
+        return ball.ballsWidth;
     }
 }
